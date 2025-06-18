@@ -42,7 +42,7 @@ movies {
     string      title
     string      tagline
     string      release_date
-    interval    duration
+    int         duration
     string      poster_path
     string      background_path
     decimal     vote_average
