@@ -11,9 +11,12 @@ users ||--o{ book_tikets: do
 users ||--o{ transactions: has
 book_tikets ||--|| transactions: has
 
-movies ||--o{genres : has
-movies ||--o{actors : have
-movies ||--||directors : have
+movies_genres ||--o{genres : has
+movies_actors ||--o{actors : have
+movies_directors ||--o{directors : have
+movies }o--||movies_genres : have
+movies }o--||movies_actors : have
+movies }o--||movies_directors : have
 transactions ||--||movies : for
 
 users{
@@ -53,6 +56,11 @@ genres {
     string  genres
 }
 
+movies_genres{
+    int     id_movies   FK
+    int     id_genres   FK
+}
+
 actors {
     int     id          PK
     string  first_name
@@ -60,10 +68,20 @@ actors {
     string  gender
 }
 
+movies_actors{
+    int     id_movies   FK
+    int     id_actors   FK
+}
+
 directors {
     int     id          PK
     string  first_name
     string  last_name
+}
+
+movies_directors {
+    int     id_movies       FK
+    int     id_directors    FK
 }
 
 book_tikets{
