@@ -6,18 +6,23 @@ A full-featured web application for booking movie tickets. Users can register, b
 
 erDiagram
 direction LR
+
 users ||--o{ session : has
 users ||--o{ book_tikets: do
 users ||--o{ transactions: has
-book_tikets ||--|| transactions: has
+book_tikets ||--|| transactions: generates
 
-movies_genres ||--o{genres : has
-movies_actors ||--o{actors : have
-movies_directors ||--o{directors : have
-movies }o--||movies_genres : have
-movies }o--||movies_actors : have
-movies }o--||movies_directors : have
-transactions ||--||movies : for
+transactions }o--|| movies : includes
+
+movies ||--o{ movies_genres : has
+genres ||--o{ movies_genres : has
+
+movies ||--o{movies_actors : has
+actors ||--o{movies_actors : has
+
+movies ||--o{movies_directors : has
+directors ||--o{movies_directors : has
+
 
 users{
     int         id           PK
@@ -39,9 +44,6 @@ session {
 
 movies {
     int         id              PK
-    int         id_directors    FK
-    int         id_actors       FK
-    int         id_genres       FK
     string      title
     string      tagline
     string      release_date
@@ -65,7 +67,6 @@ actors {
     int     id          PK
     string  first_name
     string  last_name
-    string  gender
 }
 
 movies_actors{
@@ -90,6 +91,7 @@ book_tikets{
     datetime    choose_date
     datetime    choose_time
     datetime    choose_locations
+    string      payment_method
     string      cinema
     string      seats
     int         quantity
