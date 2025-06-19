@@ -5,12 +5,11 @@ A full-featured web application for booking movie tickets. Users can register, b
 ```mermaid
 
 erDiagram
-direction LR
 
 users ||--o{ session : has
-users ||--o{ book_tikets: do
-users ||--o{ transactions: has
-book_tikets ||--|| transactions: generates
+users ||--o{ transactions: do
+users ||--o{ transactions_detail: has
+transactions ||--|| transactions_detail: generates
 
 transactions }o--|| movies : includes
 
@@ -28,11 +27,11 @@ users{
     int         id           PK
     string      first_name
     string      last_name
-    int         no_hp
+    int         phone_number
     string      email
     string      password
+    string      profil_image
     timestamp   created_at
-    string      images
 }
 
 session {
@@ -85,24 +84,24 @@ movies_directors {
     int     id_directors    FK
 }
 
-book_tikets{
+transactions{
     int         id                  PK
     int         id_users            FK
+    int         id_movies           FK
     datetime    choose_date
     datetime    choose_time
-    datetime    choose_locations
+    string      choose_locations
     string      payment_method
     string      cinema
-    string      seats
     int         quantity
-    timestamp   book_at
+    timestamp   created_at
 }
 
-transactions{
+transactions_detail{
     int     id                  PK
+    int     id_transactions     FK
     int     id_users            FK
-    int     id_book_tikets      FK
-    int     id_movies           FK
+    string  seats
     int     total_price
     string  status
 }
