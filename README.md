@@ -6,21 +6,24 @@ A full-featured web application for booking movie tickets. Users can register, b
 
 erDiagram
 
-users ||--o{ session : has
-users ||--o{ transactions: do
-users ||--o{ transactions_detail: has
-transactions ||--|| transactions_detail: generates
 
-transactions }o--|| movies : includes
+users ||--o{ sessions : has
+users ||--o{ transactions: makes
+transactions ||--|| transactions_detail: has
+
+transactions }o--|| showtimes : books
+
+movies ||--o{ showtimes : own
+cinemas ||--o{ showtimes : hosts
 
 movies ||--o{ movies_genres : has
 genres ||--o{ movies_genres : has
 
-movies ||--o{movies_actors : has
-actors ||--o{movies_actors : has
+movies ||--o{ movies_actors : features
+actors ||--o{ movies_actors : plays_in
 
-movies ||--o{movies_directors : has
-directors ||--o{movies_directors : has
+movies ||--o{ movies_directors : directed_by
+directors ||--o{ movies_directors : directs
 
 
 users{
@@ -28,13 +31,14 @@ users{
     string      first_name
     string      last_name
     int         phone_number
+    string      role
     string      email
     string      password
-    string      profil_image
+    string      profile_image
     timestamp   created_at
 }
 
-session {
+sessions {
     int         id          PK
     int         id_users    FK
     string      token
@@ -87,12 +91,9 @@ movies_directors {
 transactions{
     int         id                  PK
     int         id_users            FK
-    int         id_movies           FK
-    datetime    choose_date
-    datetime    choose_time
-    string      choose_locations
+    int         id_showtimes        FK
+    string      status
     string      payment_method
-    string      cinema
     int         quantity
     timestamp   created_at
 }
@@ -100,11 +101,30 @@ transactions{
 transactions_detail{
     int     id                  PK
     int     id_transactions     FK
-    int     id_users            FK
-    string  seats
-    int     total_price
+    string  seat_number
+    int     seat_price
     string  status
 }
+
+showtimes {
+    int         id              PK
+    int         movie_id        FK
+    int         cinema_id       FK
+    datetime    show_datetime
+    decimal     ticket_price
+    int         available_seats
+    timestamp   created_at
+}
+
+cinemas {
+    int         id          PK
+    string      name
+    string      address
+    string      city
+    int         total_seats
+    timestamp   created_at
+}
+
 
 
 ```
