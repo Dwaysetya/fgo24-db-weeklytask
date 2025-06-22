@@ -6,15 +6,11 @@ A full-featured web application for booking movie tickets. Users can register, b
 
 erDiagram
 
-
 users ||--o{ sessions : has
-users ||--o{ transactions: makes
-transactions ||--|| transactions_detail: has
+users ||--o{ transactions : makes
+transactions ||--|| transactions_detail : has
 
-transactions }o--|| showtimes : books
-
-movies ||--o{ showtimes : own
-cinemas ||--o{ showtimes : hosts
+transactions }o--|| movies : refers_to
 
 movies ||--o{ movies_genres : has
 genres ||--o{ movies_genres : has
@@ -25,8 +21,7 @@ actors ||--o{ movies_actors : plays_in
 movies ||--o{ movies_directors : directed_by
 directors ||--o{ movies_directors : directs
 
-
-users{
+users {
     int         id           PK
     string      first_name
     string      last_name
@@ -61,7 +56,7 @@ genres {
     string  genres
 }
 
-movies_genres{
+movies_genres {
     int     id_movies   FK
     int     id_genres   FK
 }
@@ -72,7 +67,7 @@ actors {
     string  last_name
 }
 
-movies_actors{
+movies_actors {
     int     id_movies   FK
     int     id_actors   FK
 }
@@ -88,43 +83,23 @@ movies_directors {
     int     id_directors    FK
 }
 
-transactions{
-    int         id                  PK
-    int         id_users            FK
-    int         id_showtimes        FK
+transactions {
+    int         id              PK
+    int         id_users        FK
+    int         id_movies       FK
     string      status
     string      payment_method
     int         quantity
     timestamp   created_at
 }
 
-transactions_detail{
+transactions_detail {
     int     id                  PK
     int     id_transactions     FK
     string  seat_number
     int     seat_price
     string  status
 }
-
-showtimes {
-    int         id              PK
-    int         movie_id        FK
-    int         cinema_id       FK
-    datetime    show_datetime
-    decimal     ticket_price
-    int         available_seats
-    timestamp   created_at
-}
-
-cinemas {
-    int         id          PK
-    string      name
-    string      address
-    string      city
-    int         total_seats
-    timestamp   created_at
-}
-
 
 
 ```
