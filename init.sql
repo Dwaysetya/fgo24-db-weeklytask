@@ -95,3 +95,11 @@ CREATE TABLE transactions_detail (
     seat_price     DECIMAL(10,2),
     status          VARCHAR(100)
 );
+
+
+
+
+
+
+
+
