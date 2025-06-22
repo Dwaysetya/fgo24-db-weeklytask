@@ -87,7 +87,6 @@ transactions {
     int         id              PK
     int         id_users        FK
     int         id_movies       FK
-    string      status
     string      payment_method
     int         quantity
     timestamp   created_at
@@ -98,7 +97,7 @@ transactions_detail {
     int     id_transactions     FK
     string  seat_number
     int     seat_price
-    string  status
+    enum  status        "paid,cancelled,expired"
 }
 
 

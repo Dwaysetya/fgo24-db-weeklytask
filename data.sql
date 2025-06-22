@@ -1,111 +1,108 @@
-INSERT INTO users (first_name, last_name, phone_number, email, password, profile_image)
+INSERT INTO users (first_name, last_name, phone_number, role, email, password, profile_image)
 VALUES
-('Dwi', 'Setyabudi', 6281234567890, 'dwi@gmail.com', '1', 'profile1.jpg'),
-('Ayu', 'Lestari', 6282234567891, 'ayu@gmail.com', '2', 'profile2.jpg'),
-('Budi', 'Santoso', 6283234567892, 'budi@gmail.com', '3', 'profile3.jpg'),
-('Siti', 'Rahma', 6284234567893, 'siti@gmail.com', '4', 'profile4.jpg'),
-('Rama', 'Pradana', 6285234567894, 'rama@gmail.com', '5', 'profile5.jpg');
+('Dwi', 'Setyabudi', 08111111111, 'user', 'dwi@gmail.com', 'pass1', 'dwi.jpg'),
+('Rina', 'Wati', 08122222222, 'user', 'rina@gmail.com', 'pass2', 'rina.jpg'),
+('Budi', 'Santoso', 08133333333, 'admin', 'budi@admin.com', 'pass3', 'budi.jpg'),
+('Aldi', 'Gunawan', 08144444444, 'user', 'aldi@gmail.com', 'pass4', 'aldi.jpg'),
+('Nina', 'Fitriani', 08155555555, 'user', 'nina@gmail.com', 'pass5', 'nina.jpg'),
+('Raka', 'Putra', 08166666666, 'user', 'raka@gmail.com', 'pass6', 'raka.jpg'),
+('Sita', 'Amelia', 08177777777, 'user', 'sita@gmail.com', 'pass7', 'sita.jpg'),
+('Yoga', 'Pratama', 08188888888, 'user', 'yoga@gmail.com', 'pass8', 'yoga.jpg'),
+('Tari', 'Fauziah', 08199999999, 'user', 'tari@gmail.com', 'pass9', 'tari.jpg'),
+('Eka', 'Saputra', 08101010101, 'user', 'eka@gmail.com', 'pass10', 'eka.jpg');
 
-UPDATE users SET role = 'admin' WHERE id = 1;
-
-INSERT INTO sessions (id_user, token)
-VALUES
-(1, 'token1'),
-(2, 'token2'),
-(3, 'token3'),
-(4, 'token4'),
-(5, 'token5');
-
-INSERT INTO genres (genres)
-VALUES
-('Action'),
-('Comedy'),
-('Drama'),
-('Sci-Fi'),
-('Horror');
-
-INSERT INTO actors (first_name, last_name)
-VALUES
-('Dwi', 'Setya'),
-('Budi', 'Johanes'),
-('Fauzi', 'Ilham'),
-('Rananda', 'Iyo'),
-('Adhi', 'susilo');
-
-INSERT INTO directors (first_name, last_name)
-VALUES
-('Setya', 'Dwi'),
-('Indah', 'Setiadi'),
-('Huliyah', 'Fadhilah'),
-('Firman', 'Alam'),
-('Juman', 'Dika');
 
 INSERT INTO movies (title, tagline, release_date, duration, poster_path, background_path, vote_average)
 VALUES
-('Inception', 'Your mind is the scene of the crime', '2010-07-16', 148, 'inception.jpg', 'bg1.jpg', 8.8),
-('Avengers: Endgame', 'Part of the journey is the end', '2019-04-26', 181, 'endgame.jpg', 'bg2.jpg', 8.4),
-('Interstellar', 'Mankind was born on Earth. It was never meant to die here.', '2014-11-07', 169, 'interstellar.jpg', 'bg3.jpg', 8.6),
-('The Matrix', 'Welcome to the Real World', '1999-03-31', 136, 'matrix.jpg', 'bg4.jpg', 8.7),
-('Titanic', 'Nothing on Earth could come between them', '1997-12-19', 195, 'titanic.jpg', 'bg5.jpg', 7.8);
+('Virus Escape', 'Run and survive', '2023-10-01', 90, 'poster1.jpg', 'bg1.jpg', 7.5),
+('Hack World', 'Code is power', '2023-08-15', 100, 'poster2.jpg', 'bg2.jpg', 8.0),
+('Into Nowhere', 'Lost in space', '2022-12-20', 120, 'poster3.jpg', 'bg3.jpg', 8.1),
+('Love Byte', 'Romance of logic', '2024-02-14', 95, 'poster4.jpg', 'bg4.jpg', 7.2),
+('Silent Code', 'Hidden algorithm', '2023-09-10', 105, 'poster5.jpg', 'bg5.jpg', 7.9),
+('Dream Root', 'Mind game begins', '2022-06-05', 140, 'poster6.jpg', 'bg6.jpg', 8.5),
+('The Loop', 'Trapped in time', '2023-01-01', 110, 'poster7.jpg', 'bg7.jpg', 7.8),
+('Reset', 'Start over again', '2023-03-11', 88, 'poster8.jpg', 'bg8.jpg', 6.9),
+('Firewall', 'Secure the world', '2024-05-22', 112, 'poster9.jpg', 'bg9.jpg', 7.3),
+('Deep Web', 'Things unseen', '2023-07-07', 100, 'poster10.jpg', 'bg10.jpg', 7.0);
 
-INSERT INTO movies_genres (movie_id, genre_id)
+INSERT INTO genres (genres)
 VALUES
-(1, 4),  -- Inception - Sci-Fi
-(2, 1),  -- Endgame - Action
-(3, 4),  -- Interstellar - Sci-Fi
-(4, 4),  -- Matrix - Sci-Fi
-(5, 3);  -- Titanic - Drama
+('Adventure'),
+('Horror'),
+('Action'),
+('Comedy'),
+('Thriller'),
+('Sci-Fi');
+
+INSERT INTO movies_genres (id_movies, id_genres)
+VALUES
+(1, 1), (1, 4),
+(2, 3), (2, 4),
+(3, 2), (3, 4),
+(4, 5), (4, 2),
+(5, 6), (5, 1),
+(6, 3), (6, 5),
+(7, 2), (7, 1),
+(8, 1), (8, 6),
+(9, 6), (9, 6),
+(10, 1), (10, 3);
+
+INSERT INTO actors (first_name, last_name)
+VALUES
+('Setya', 'Budi'),
+('Emma', 'Stenli'),
+('Robert', 'Downey'),
+('Familys', 'Seratus'),
+('Chris', 'Evans'),
+('Gal', 'Gadot'),
+('Ryan', 'Bakau'),
+('Zoe', 'Saldana'),
+('Rahardian', 'Reza'),
+('Jennifer', 'Burhan');
 
 INSERT INTO movies_actors (id_movies, id_actors)
 VALUES
-(1, 3), 
-(2, 5), 
-(3, 4), 
-(4, 1), 
-(5, 2); 
+(1,1),(1,2),
+(2,3),(2,4),
+(3,5),(3,6),
+(4,7),(4,8),
+(5,9),(5,10),
+(6,1),(6,3),
+(7,2),(7,5),
+(8,4),(8,6),
+(9,7),(9,9),
+(10,8),(10,10);
+
+INSERT INTO directors (first_name, last_name)
+VALUES
+('Steven', 'Spielberg'),
+('Christopher', 'Nolan'),
+('James', 'Cameron'),
+('Greta', 'Gerwig'),
+('Denis', 'Villeneuve'),
+('Patty', 'Jenkins'),
+('Taika', 'Waititi'),
+('Ryan', 'Coogler'),
+('Sam', 'Mendes'),
+('Alfonso', 'Cuarón');
 
 INSERT INTO movies_directors (id_movies, id_directors)
 VALUES
-(1, 2), 
-(2, 2),
-(3, 2), 
-(4, 1), 
-(5, 3); 
+(1,1), (2,2), (3,3), (4,4), (5,5),
+(6,6), (7,7), (8,8), (9,9), (10,10);
 
-INSERT INTO cinemas (name, address, city, total_seats)
+INSERT INTO transactions (id_users, id_movies, status, payment_method, quantity)
 VALUES
-('Cinepolis Galaxy', 'Jl. Raya Galaxy No.5', 'Bekasi', 150),
-('XXI Plaza Indonesia', 'Jl. MH Thamrin No.1', 'Jakarta', 200),
-('CGV PVJ', 'Jl. Sukajadi No.131', 'Bandung', 180),
-('Cinepolis Big Mall', 'Jl. Untung Suropati', 'Samarinda', 120),
-('XXI Margo City', 'Jl. Margonda Raya', 'Depok', 160);
-
-INSERT INTO showtimes (id_cinema, show_datetime, ticket_price, available_seats)
-VALUES
-(1, '2025-06-20 14:00:00', 50000, 120),
-(2, '2025-06-20 17:00:00', 60000, 180),
-(3, '2025-06-21 19:00:00', 55000, 160),
-(4, '2025-06-22 13:00:00', 50000, 100),
-(5, '2025-06-22 20:00:00', 65000, 140);
-
-INSERT INTO transactions (id_users, id_showtime, payment_method, quantity)
-VALUES
-(1, 1, 'Credit Card', 2),
-(2, 2, 'GoPay', 3),
-(3, 3, 'OVO', 1),
-(4, 4, 'Cash', 2),
-(5, 5, 'ShopeePay', 4);
-
-INSERT INTO transactions_detail (id_transactions, seat_number, seat_price, status)
-VALUES
-(1, 'A1,A2', 100000, 'Paid'),
-(2, 'B1,B2,B3', 180000, 'Paid'),
-(3, 'C1', 55000, 'Paid'),
-(4, 'D1,D2', 100000, 'Pending'),
-(5, 'E1,E2,E3,E4', 260000, 'Paid');
-
-
-
+(1, 1, 'completed', 'gopay', 2),
+(2, 2, 'completed', 'ovo', 1),
+(3, 3, 'pending', 'bank_transfer', 3),
+(4, 4, 'completed', 'cash', 1),
+(5, 5, 'failed', 'shopeepay', 2),
+(6, 6, 'completed', 'gopay', 2),
+(7, 7, 'pending', 'dana', 1),
+(8, 8, 'completed', 'ovo', 3),
+(9, 9, 'completed', 'bank_transfer', 2),
+(10, 10, 'failed', 'cash', 1);
 
 
 

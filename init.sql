@@ -12,14 +12,51 @@ CREATE TABLE users (
 
 CREATE TABLE sessions (
     id          SERIAL PRIMARY KEY,
-    id_user     INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    id_users    INTEGER REFERENCES users(id) ON DELETE CASCADE,
     token       VARCHAR(255),
     created_at  TIMESTAMP DEFAULT now()
 );
 
+CREATE TABLE movies (
+    id              SERIAL PRIMARY KEY,
+    title           VARCHAR(100),
+    tagline         VARCHAR(255),
+    release_date    DATE,
+    duration        INT CHECK (duration > 0),
+    poster_path     VARCHAR(255),
+    background_path VARCHAR(255),
+    vote_average    DECIMAL(3,1)
+);
+
+CREATE TABLE transactions (
+    id              SERIAL PRIMARY KEY,
+    id_users        INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    id_movies       INTEGER REFERENCES movies(id) ON DELETE CASCADE,
+    payment_method  VARCHAR(100),
+    quantity        INT CHECK (quantity > 0),
+    created_at      TIMESTAMP DEFAULT now()
+);
+
+CREATE TYPE status_enum AS ENUM ('paid', 'cancelled', 'expired');
+
+CREATE TABLE transactions_detail (
+    id                  SERIAL PRIMARY KEY,
+    id_transactions     INTEGER REFERENCES transactions(id) ON DELETE CASCADE,
+    seat_number         VARCHAR(100),
+    seat_price          DECIMAL(10,2),
+    status              status_enum
+);
+
+
+
 CREATE TABLE genres (
     id      SERIAL PRIMARY KEY,
     genres  VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE movies_genres (
+    id_movies   INTEGER REFERENCES movies(id) ON DELETE CASCADE,
+    id_genres   INTEGER REFERENCES genres(id) ON DELETE SET NULL
 );
 
 CREATE TABLE actors (
@@ -28,31 +65,15 @@ CREATE TABLE actors (
     last_name   VARCHAR(100)
 );
 
+CREATE TABLE movies_actors (
+    id_movies   INTEGER REFERENCES movies(id) ON DELETE CASCADE,
+    id_actors   INTEGER REFERENCES actors(id) ON DELETE SET NULL
+);
+
 CREATE TABLE directors (
     id          SERIAL PRIMARY KEY,
     first_name  VARCHAR(100),
     last_name   VARCHAR(100)
-);
-
-CREATE TABLE movies (
-    id              SERIAL PRIMARY KEY,
-    title           VARCHAR(100),
-    tagline         VARCHAR(200),
-    release_date    DATE,
-    duration        INT CHECK (duration > 0),
-    poster_path     VARCHAR(255),
-    background_path VARCHAR(255),
-    vote_average    DECIMAL(3,1)
-);
-
-CREATE TABLE movies_genres (
-    id_movies      INTEGER REFERENCES movies(id) ON DELETE CASCADE,
-    id_genres      INTEGER REFERENCES genres(id) ON DELETE SET NULL
-);
-
-CREATE TABLE movies_actors (
-    id_movies       INTEGER REFERENCES movies(id) ON DELETE CASCADE,
-    id_actors       INTEGER REFERENCES actors(id) ON DELETE SET NULL
 );
 
 CREATE TABLE movies_directors (
@@ -60,42 +81,46 @@ CREATE TABLE movies_directors (
     id_directors    INTEGER REFERENCES directors(id) ON DELETE SET NULL
 );
 
-CREATE TABLE cinemas (
-    id          SERIAL PRIMARY KEY,
-    name        VARCHAR(150),
-    address     TEXT,
-    city        VARCHAR(100),
-    total_seats INT CHECK (total_seats > 0),
-    created_at  TIMESTAMP DEFAULT NOW()
-);
 
-CREATE TABLE showtimes (
-    id              SERIAL PRIMARY KEY,
-    id_movie        INTEGER REFERENCES movies(id) ON DELETE CASCADE,
-    id_cinema       INTEGER REFERENCES cinemas(id) ON DELETE CASCADE,
-    show_datetime   TIMESTAMP NOT NULL,
-    ticket_price    DECIMAL(10, 2),
-    available_seats INT,
-    created_at      TIMESTAMP DEFAULT NOW()
-);
 
-CREATE TABLE transactions (
-    id              SERIAL PRIMARY KEY,
-    id_users        INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    id_showtime     INTEGER REFERENCES showtimes(id) ON DELETE CASCADE,
-    payment_method  VARCHAR(100),
-    quantity        INT,
-    created_at      TIMESTAMP
-);
+-- menampilkan semua transaksi
+SELECT 
+    t.id AS transaction_id,
+    u.first_name || ' ' || u.last_name AS user_name,
+    m.title AS movie_title,
+    t.payment_method,
+    t.quantity,
+    t.created_at
+FROM transactions t
+JOIN users u ON t.id_users = u.id
+JOIN movies m ON t.id_movies = m.id;
 
-CREATE TABLE transactions_detail (
-    id              SERIAL PRIMARY KEY,
-    id_transactions INTEGER REFERENCES transactions(id) ON DELETE CASCADE,
-    seat_number           VARCHAR(500),
-    seat_price     DECIMAL(10,2),
-    status          VARCHAR(100)
-);
 
+--menampilkan semua movie beserta genresnya
+
+SELECT m.title as name_movie, string_agg(g.genres,',') as name_genres
+FROM movies m
+JOIN movies_genres mg ON m.id = mg.id_movies
+JOIN genres g ON g.id = mg.id_genres
+GROUP BY m.title;
+
+-- menampilkan nama movie beserta actornya
+SELECT 
+    m.title AS movie_title,
+  string_agg(a.first_name || ' ' || a.last_name,',') AS actor_name
+FROM movies m
+JOIN movies_actors ma ON m.id = ma.id_movies
+JOIN actors a ON a.id = ma.id_actors
+GROUP BY m.title;
+
+
+-- menampilkan nama movie beserta directornya
+SELECT 
+    m.title AS movie_title,
+    d.first_name || ' ' || d.last_name AS director_name
+FROM movies m
+JOIN movies_directors md ON m.id = md.id_movies
+JOIN directors d ON d.id = md.id_directors;
 
 
 
