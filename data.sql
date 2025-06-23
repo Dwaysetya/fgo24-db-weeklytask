@@ -91,18 +91,40 @@ VALUES
 (1,1), (2,2), (3,3), (4,4), (5,5),
 (6,6), (7,7), (8,8), (9,9), (10,10);
 
-INSERT INTO transactions (id_users, id_movies, status, payment_method, quantity)
+INSERT INTO transactions (id_users, id_movies, payment_method, quantity)
 VALUES
-(1, 1, 'completed', 'gopay', 2),
-(2, 2, 'completed', 'ovo', 1),
-(3, 3, 'pending', 'bank_transfer', 3),
-(4, 4, 'completed', 'cash', 1),
-(5, 5, 'failed', 'shopeepay', 2),
-(6, 6, 'completed', 'gopay', 2),
-(7, 7, 'pending', 'dana', 1),
-(8, 8, 'completed', 'ovo', 3),
-(9, 9, 'completed', 'bank_transfer', 2),
-(10, 10, 'failed', 'cash', 1);
+(1, 1, 'paypal', 2),
+(2, 2, 'visa', 1),
+(3, 3, 'google', 3),
+(4, 4, 'dana', 1),
+(5, 5, 'dana', 2),
+(6, 6, 'paypal', 2),
+(7, 7, 'dana', 1),
+(8, 8, 'visa', 3),
+(9, 9, 'google', 2),
+(10, 10, 'dana', 1);
+
+INSERT INTO transactions_detail (id_transactions, seat_number, seat_price, status)
+VALUES
+(1, 'A1', 45000, 'paid'), 
+(1, 'A2', 45000, 'paid'),
+(2, 'B1', 45000, 'paid'),
+(3, 'C1', 45000, 'expired'), 
+(3, 'C2', 45000, 'expired'), 
+(3, 'C3', 45000, 'expired'),
+(4, 'D1', 45000, 'paid'),
+(5, 'E1', 45000, 'cancelled'), 
+(5, 'E2', 45000, 'cancelled'),
+(6, 'F1', 45000, 'paid'), 
+(6, 'F2', 45000, 'paid'),
+(7, 'G1', 45000, 'cancelled'),
+(8, 'H1', 45000, 'paid'), 
+(8, 'H2', 45000, 'paid'), 
+(8, 'H3', 45000, 'paid'),
+(9, 'I1', 45000, 'paid'), 
+(9, 'I2', 45000, 'paid'),
+(10, 'J1', 45000, 'cancelled');
+
 
 
 

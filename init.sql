@@ -85,15 +85,21 @@ CREATE TABLE movies_directors (
 
 -- menampilkan semua transaksi
 SELECT 
-    t.id AS transaction_id,
     u.first_name || ' ' || u.last_name AS user_name,
     m.title AS movie_title,
     t.payment_method,
-    t.quantity,
-    t.created_at
+    t.quantity AS quantity_ordered,
+    COUNT(td.seat_number) FILTER (WHERE td.status = 'paid') AS total_paid_seats,
+    STRING_AGG(td.seat_number, ', ') FILTER (WHERE td.status = 'paid') AS paid_seats,
+    SUM(td.seat_price) FILTER (WHERE td.status = 'paid') AS total_paid_price,
+    STRING_AGG(td.status::TEXT, ', ') AS all_seat_statuses
 FROM transactions t
 JOIN users u ON t.id_users = u.id
-JOIN movies m ON t.id_movies = m.id;
+JOIN movies m ON t.id_movies = m.id
+JOIN transactions_detail td ON td.id_transactions = t.id
+GROUP BY t.id, u.first_name, u.last_name, m.title, t.payment_method, t.quantity
+ORDER BY t.id;
+
 
 
 --menampilkan semua movie beserta genresnya
